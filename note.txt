@@ -1,0 +1,19 @@
+// Pages
+
+    Login Pages
+        The user will enter in a username and password to login into the app
+
+    Create Account Pages   
+        If the user does not have a login, this page will be used to handle creating accounts
+
+    Dsahboard Page (Profile or admin)
+        Add blog item
+        Edit blog item
+        See all of our blog items
+        Delete blog items
+        Publish and unpublish blog items
+        Update users' username
+
+    Blog Page (viewing teh blogs)
+        This will be the page to see all teh published blog items
+        Blog will be presented in a mirror fashion
