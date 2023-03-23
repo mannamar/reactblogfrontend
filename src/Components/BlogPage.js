@@ -62,7 +62,7 @@ export default function BlogPage() {
                     {
                         blogItems.map((item, idx) => {
                             return (
-                                <Row>
+                                <Row className={ idx % 2 === 1 ? 'flex-row-reverse' : '' }>
                                     <Col md={6}>
                                         <Row>
                                             <Col md={12} className='d-flex justify-content-center'>{item.Title}</Col>
