@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, { useState } from 'react'
 import { Container, Row, Col } from 'react-bootstrap';
 
 export default function BlogPage() {
@@ -62,23 +62,63 @@ export default function BlogPage() {
                     {
                         blogItems.map((item, idx) => {
                             return (
-                                <Row className={ idx % 2 === 1 ? 'flex-row-reverse' : '' }>
-                                    <Col md={6}>
-                                        <Row>
-                                            <Col md={12} className='d-flex justify-content-center'>{item.Title}</Col>
-                                            <Col md={12}>
-                                                <Row>
-                                                    <Col md={6} className='d-flex justify-content-center'>{item.Publisher}</Col>
-                                                    <Col md={6} className='d-flex justify-content-center'>{item.Date}</Col>
-                                                </Row>    
-                                            </Col>
-                                            <Col md={12} className='d-flex justify-content-center'>
-                                                <img src={item.Image} className='d-block w-100 p-4'/>
-                                            </Col>
-                                        </Row>
-                                    </Col>
-                                    <Col md={6} className='d-flex justify-content-center'>{item.Description}</Col>
-                                </Row>
+                                <>
+                                    {
+                                        idx % 2 === 0 ?
+                                            <Row>
+                                                <Col md={6}>
+                                                    <Row>
+                                                        <Col md={12} className='d-flex justify-content-center'>{item.Title}</Col>
+                                                        <Col md={12}>
+                                                            <Row>
+                                                                <Col md={6} className='d-flex justify-content-center'>{item.Publisher}</Col>
+                                                                <Col md={6} className='d-flex justify-content-center'>{item.Date}</Col>
+                                                            </Row>
+                                                        </Col>
+                                                        <Col md={12} className='d-flex justify-content-center'>
+                                                            <img src={item.Image} className='d-block w-100 p-4' />
+                                                        </Col>
+                                                    </Row>
+                                                </Col>
+                                                <Col md={6} className='d-flex justify-content-center'>{item.Description}</Col>
+                                            </Row>
+                                            :
+                                            <Row>
+                                                <Col md={6} className='d-flex justify-content-center'>{item.Description}</Col>
+                                                <Col md={6}>
+                                                    <Row>
+                                                        <Col md={12} className='d-flex justify-content-center'>{item.Title}</Col>
+                                                        <Col md={12}>
+                                                            <Row>
+                                                                <Col md={6} className='d-flex justify-content-center'>{item.Publisher}</Col>
+                                                                <Col md={6} className='d-flex justify-content-center'>{item.Date}</Col>
+                                                            </Row>
+                                                        </Col>
+                                                        <Col md={12} className='d-flex justify-content-center'>
+                                                            <img src={item.Image} className='d-block w-100 p-4' />
+                                                        </Col>
+                                                    </Row>
+                                                </Col>
+                                            </Row>
+                                    }
+                                </>
+                                // <Row className={ idx % 2 === 1 ? 'flex-row-reverse' : '' }>
+                                //     <Col md={6}>
+                                //         <Row>
+                                //             <Col md={12} className='d-flex justify-content-center'>{item.Title}</Col>
+                                //             <Col md={12}>
+                                //                 <Row>
+                                //                     <Col md={6} className='d-flex justify-content-center'>{item.Publisher}</Col>
+                                //                     <Col md={6} className='d-flex justify-content-center'>{item.Date}</Col>
+                                //                 </Row>    
+                                //             </Col>
+                                //             <Col md={12} className='d-flex justify-content-center'>
+                                //                 <img src={item.Image} className='d-block w-100 p-4'/>
+                                //             </Col>
+                                //         </Row>
+                                //     </Col>
+                                //     <Col md={6} className='d-flex justify-content-center'>{item.Description}</Col>
+                                // </Row>
                             )
                         })
                     }
