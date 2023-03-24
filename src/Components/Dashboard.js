@@ -180,9 +180,9 @@ function Dashboard() {
                             <Accordion.Header>Published Blog Items</Accordion.Header>
                             <Accordion.Body>
                                 <ListGroup>
-                                    {blogItems.map((item, index) => {
+                                    {blogItems.map((item, idx) => {
                                         return (
-                                            <>
+                                            <div key={idx}>
                                                 {
                                                     item.Published ?
                                                         <ListGroup.Item>
@@ -195,7 +195,7 @@ function Dashboard() {
                                                         </ListGroup.Item>
                                                         : null
                                                 }
-                                            </>
+                                            </div>
                                         )
                                     })}
                                 </ListGroup>
@@ -208,9 +208,9 @@ function Dashboard() {
                             <Accordion.Header>Unpublished Blog Items</Accordion.Header>
                             <Accordion.Body>
                                 <ListGroup>
-                                    {blogItems.map((item, index) => {
+                                    {blogItems.map((item, idx) => {
                                         return (
-                                            <>
+                                            <div key={idx}>
                                                 {
                                                     item.Published ?
                                                         <ListGroup.Item>
@@ -223,7 +223,7 @@ function Dashboard() {
                                                         </ListGroup.Item>
                                                         : null
                                                 }
-                                            </>
+                                            </div>
                                         )
                                     })}
                                 </ListGroup>

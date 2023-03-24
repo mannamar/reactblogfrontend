@@ -62,7 +62,7 @@ export default function BlogPage() {
                     {
                         blogItems.map((item, idx) => {
                             return (
-                                <>
+                                <div key={idx}>
                                     {
                                         idx % 2 === 0 ?
                                             <Row>
@@ -101,7 +101,7 @@ export default function BlogPage() {
                                                 </Col>
                                             </Row>
                                     }
-                                </>
+                                </div>
                                 // <Row className={ idx % 2 === 1 ? 'flex-row-reverse' : '' }>
                                 //     <Col md={6}>
                                 //         <Row>
