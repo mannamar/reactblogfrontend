@@ -1,17 +1,26 @@
-import React, {useState} from 'react'
-import { Col, Container, Row, Button, Form } from 'react-bootstrap'
+import React, {useState} from 'react';
+import { Col, Container, Row, Button, Form } from 'react-bootstrap';
+import { login, getLoggedInUserData } from '../services/DataService';
+import { useNavigate } from 'react-router-dom';
 
 export default function Login() {
+    let navigate = useNavigate();
 
     const [Username, setUsername] = useState('');
     const [Password, setPassword] = useState('');
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
         let userData = {
             Username,
             Password
         }
-        console.log(userData)
+        console.log(userData);
+        let token = await login(userData);
+        if (token.token != null) {
+            localStorage.setItem("Token", token.token);
+            // getLoggedInUserData(username);
+            navigate('/Dashboard');
+        }
     }
 
     return (
@@ -41,14 +50,13 @@ export default function Login() {
                         </Form.Group>
                         <Button
                             variant="primary"
-                            type="submit"
                             onClick={handleSubmit}
                             >
                             Login
                         </Button>
                     </Form>
                     <h4>Don't have an account?</h4>
-                    <Button>Create Account</Button>
+                    <Button onClick={() => navigate('/CreateAccount')}>Create Account</Button>
                 </Col>
             </Row>
         </Container>

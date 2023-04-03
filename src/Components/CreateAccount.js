@@ -1,5 +1,6 @@
 import React, {useState} from 'react'
 import { Col, Container, Row, Button, Form } from 'react-bootstrap'
+import { createAccount } from '../services/DataService';
 
 export default function CreateAccount() {
 
@@ -8,10 +9,12 @@ export default function CreateAccount() {
 
     const handleSubmit = () => {
         let userData = {
+            Id: 0,
             Username,
             Password
         }
-        console.log(userData)
+        console.log(userData);
+        createAccount(userData);
     }
 
     return (
@@ -41,7 +44,7 @@ export default function CreateAccount() {
                         </Form.Group>
                         <Button
                             variant="primary"
-                            type="submit"
+                            // type="submit"
                             onClick={handleSubmit}
                             >
                             Submit
