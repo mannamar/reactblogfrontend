@@ -48,4 +48,11 @@ async function getLoggedInUserData(username) {
     console.log(userData);
 }
 
-export { createAccount, login, getLoggedInUserData };
+// Gets all published items
+async function getPublishedBlogItems() {
+    let res = await fetch('https://amarblogapi.azurewebsites.net/Blog/GetPublishedItems');
+    let data = res.json();
+    return data;
+}
+
+export { createAccount, login, getLoggedInUserData, getPublishedBlogItems };
