@@ -6,19 +6,19 @@ import { useNavigate } from 'react-router-dom';
 export default function Login() {
     let navigate = useNavigate();
 
-    const [Username, setUsername] = useState('');
-    const [Password, setPassword] = useState('');
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
 
     const handleSubmit = async () => {
         let userData = {
-            Username,
-            Password
+            username,
+            password
         }
         console.log(userData);
         let token = await login(userData);
         if (token.token != null) {
             localStorage.setItem("Token", token.token);
-            // getLoggedInUserData(username);
+            await getLoggedInUserData(username);
             navigate('/Dashboard');
         }
     }

@@ -42,7 +42,7 @@ async function login(loginUser) {
 }
 
 async function getLoggedInUserData(username) {
-    let response = await fetch(`https://amarblogapi.azurewebsites.net/User/GetUserByUsername/${username}`);
+    let response = await fetch(`https://amarblogapi.azurewebsites.net/User/UserByUsername/${username}`);
     let data = await response.json();
     userData = data;
     console.log(userData);
@@ -55,4 +55,61 @@ async function getPublishedBlogItems() {
     return data;
 }
 
-export { createAccount, login, getLoggedInUserData, getPublishedBlogItems };
+function checkToken() {
+    let result = false;
+    let lsData = localStorage.getItem('Token');
+    if (lsData != null) {
+        result = true;
+    }
+    return result;
+}
+
+function loggedInData() {
+    return userData;
+}
+
+async function addBlogItem(blogItem) {
+    const response = await fetch('https://amarblogapi.azurewebsites.net/blog/addblogitem', {
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(blogItem)
+    });
+
+    if(!response.ok) {
+        const message = `An error has occured ${response.status}`;
+        throw new Error(message);
+    }
+
+    let data = await response.json();
+    console.log(data);
+    return data;
+}
+
+async function getBlogItemsByUserId(userId) {
+    let res = await fetch(`https://amarblogapi.azurewebsites.net/Blog/GetItemsByUserId/${userId}`);
+    let data = res.json();
+    return data;
+}
+
+async function updateBlogItem(blogItem) {
+    const response = await fetch('https://amarblogapi.azurewebsites.net/blog/UpdateBlogItem', {
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(blogItem)
+    });
+
+    if(!response.ok) {
+        const message = `An error has occured ${response.status}`;
+        throw new Error(message);
+    }
+
+    let data = await response.json();
+    console.log(data);
+    return data;
+}
+
+export { createAccount, login, getLoggedInUserData, getPublishedBlogItems, checkToken, loggedInData, addBlogItem, getBlogItemsByUserId, updateBlogItem };
