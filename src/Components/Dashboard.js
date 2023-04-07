@@ -43,25 +43,85 @@ function Dashboard() {
     const [blogIsPublished, setIsPublished] = useState(false);
 
     const handleClose = () => setShow(false);
-    const handleShow = (e) => {
+    const handleShow = (e, {id, userid, publishedname, isDeleted, isPublished, title, image, description, category, tags}) => {
 
         // console.log(e.target.textContent);
         setShow(true);
 
         if (e.target.textContent === 'Add Blog Item') {
             setEditBool(false);
-            setBlogTitle('');
-            setBlogDescription('');
-            setBlogCategory('');
-            setBlogTags('');
+            
         } else {
             setEditBool(true);
-            setBlogTitle('Spicy Noods');
-            setBlogDescription('Spicy noods are life');
-            setBlogCategory('Pastas');
-            setBlogTags('yummy,spicy,fuego');
+            
+        }
+        setBlogId(id);
+        setUserId(userid);
+        setPublisherName(publishedname);
+        setBlogTitle(title);
+        setBlogImage(image);
+        setBlogDescription(description);
+        setBlogCategory(category);
+        setBlogTags(tags);
+        setBlogIsDeleted(isDeleted);
+        setIsPublished(isPublished);
+    }
+
+    const handleSave = async ({target:{textContent}}) => {
+        const item = {
+            Id: blogId,
+            Userid: blogUserId,
+            PublishdName: blogPublisherName,
+            Title: blogTitle,
+            Image: blogImage,
+            Description: blogDescription,
+            Date: new Date(),
+            Tags: blogTags,
+            Category: blogCategory,
+            isPublished: textContent === 'Save' || textContent === 'Save Changes' ? false : true,
+            isDeleted: false
         }
 
+        console.log(item);
+        handleClose();
+        let result = false;
+        if (editBool) {
+            result = await updateBlogItem(item);
+        } else {
+            result = await addBlogItem(item);
+        }
+
+        if (result) {
+            let userBlogItems = await getBlogItemsByUserId(blogUserId);
+            console.log(userBlogItems);
+            setBlogItems(userBlogItems);
+        } else {
+            alert(`Blog Items was not ${editBool ? 'Updated' : 'Added'}`)
+        }
+    }
+
+    const handlePublish = async (item) => {
+        item.isPublished = !item.isPublished;
+        let result = await updateBlogItem(item);
+        if (result) {
+            let userBlogItems = await getBlogItemsByUserId(blogUserId);
+            console.log(userBlogItems);
+            setBlogItems(userBlogItems);
+        } else {
+            alert(`Blog Items was not updated`)
+        }
+    }
+
+    const handleDelete = async (item) => {
+        item.isDeleted = !item.isDeleted;
+        let result = await updateBlogItem(item);
+        if (result) {
+            let userBlogItems = await getBlogItemsByUserId(blogUserId);
+            console.log(userBlogItems);
+            setBlogItems(userBlogItems);
+        } else {
+            alert(`Blog Items was not deleted`)
+        }
     }
 
     const handleTitle = (e) => setBlogTitle(e.target.value);
@@ -142,10 +202,10 @@ function Dashboard() {
                     <Button variant="secondary" onClick={handleClose}>
                         Close
                     </Button>
-                    <Button variant="primary" onClick={handleClose}>
+                    <Button variant="primary" onClick={handleSave}>
                         {editBool ? 'Save Changes' : 'Save'}
                     </Button>
-                    <Button variant="primary" onClick={handleClose}>
+                    <Button variant="primary" onClick={handleSave}>
                         {editBool ? 'Save Changes' : 'Save'} and Publish
                     </Button>
                 </Modal.Footer>
@@ -154,8 +214,7 @@ function Dashboard() {
 
             <Row>
                 <Col md={12}>
-                    <Button onClick={handleShow}>Add Blog Item</Button>
-                    <Button onClick={handleShow}>Edit Blog Item</Button>
+                    <Button onClick={(e) => handleShow(e, {id: 0, userid: blogUserId, publishedname: blogPublisherName, isDeleted: false, isPublished: false, title: '', image: '', description: '', category: '', tags: ''})}>Add Blog Item</Button>
                 </Col>
             </Row>
 
@@ -170,13 +229,13 @@ function Dashboard() {
                                         return (
                                             <div key={idx}>
                                                 {
-                                                    item.Published ?
+                                                    item.isPublished ?
                                                         <ListGroup.Item>
                                                             <Col>{item.title}</Col>
                                                             <Col>
-                                                                <Button variant='danger'>Delete</Button>
-                                                                <Button variant='info'>Edit</Button>
-                                                                <Button variant='success'>Unpublish</Button>
+                                                                <Button variant='danger' onClick={() => handleDelete(item)}>Delete</Button>
+                                                                <Button variant='info' onClick={(e) => handleShow(e, item)}>Edit</Button>
+                                                                <Button variant='success' onClick={() => handlePublish(item)}>Unpublish</Button>
                                                             </Col>
                                                         </ListGroup.Item>
                                                         : null
@@ -198,16 +257,16 @@ function Dashboard() {
                                         return (
                                             <div key={idx}>
                                                 {
-                                                    item.Published ?
+                                                    item.isPublished ?
+                                                        null :
                                                         <ListGroup.Item>
                                                             <Col>{item.title}</Col>
                                                             <Col>
-                                                                <Button variant='danger'>Delete</Button>
-                                                                <Button variant='info'>Edit</Button>
-                                                                <Button variant='success'>Publish</Button>
+                                                                <Button variant='danger' onClick={() => handleDelete(item)}>Delete</Button>
+                                                                <Button variant='info' onClick={(e) => handleShow(e, item)}>Edit</Button>
+                                                                <Button variant='success' onClick={() => handlePublish(item)}>Publish</Button>
                                                             </Col>
                                                         </ListGroup.Item>
-                                                        : null
                                                 }
                                             </div>
                                         )
